@@ -1,0 +1,11 @@
+{"t":0,"agent":"system","event":"keyword_detected","keyword":"ralph"}
+{"t":0,"agent":"system","event":"mode_change","mode_from":"none","mode_to":"ralph"}
+{"t":0,"agent":"a6610d4","agent_type":"executor","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"a3e9bea","agent_type":"executor","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"a829511","agent_type":"executor","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"a3a351c","agent_type":"executor","event":"agent_start","parent_mode":"none"}
+{"t":0,"agent":"a3a351c","agent_type":"executor","event":"agent_stop","success":true,"duration_ms":220656}
+{"t":0,"agent":"a6610d4","agent_type":"executor","event":"agent_stop","success":true,"duration_ms":302320}
+{"t":0,"agent":"a3e9bea","agent_type":"executor","event":"agent_stop","success":true,"duration_ms":272374}
+{"t":0,"agent":"a829511","agent_type":"executor","event":"agent_stop","success":true,"duration_ms":302475}
+{"t":0,"agent":"system","event":"skill_invoked","skill_name":"oh-my-claudecode:cancel"}

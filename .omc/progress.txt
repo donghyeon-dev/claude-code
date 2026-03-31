@@ -1,0 +1,72 @@
+# Ralph Progress Log
+## Session: 2026-03-31
+
+### Iteration 1
+- Task: Claude Code 소스코드 기반 심층 문서화
+- Stories: US-001 ~ US-005
+- Status: Starting
+
+### Completed Prior Work
+- CLAUDE_CODE_ARCHITECTURE_ANALYSIS.md 작성 완료 (아키텍처 분석 기본 문서)
+- 핵심 파일 분석 완료: Tool.ts, tools.ts, commands.ts, context.ts, setup.ts, Task.ts, main.tsx, systemPrompt.ts, systemPromptSections.ts, prompts.ts
+
+### US-001 심층 인사이트 추출 (COMPLETED)
+**query.ts 분석:**
+- query() → queryLoop() 비동기 제너레이터 구조
+- State 타입: messages, autoCompactTracking, maxOutputTokensRecoveryCount(최대 3회), turnCount
+- MAX_OUTPUT_TOKENS_RECOVERY_LIMIT = 3 (출력 토큰 초과 시 자동 복구)
+- StreamingToolExecutor: API 스트리밍 중 도구 호출 실시간 감지/실행
+- runTools(): 도구 결과 수집 + applyToolResultBudget() 크기 제한
+- taskBudget: API의 task_budget(output_config.task_budget) 지원
+- createBudgetTracker/checkTokenBudget: 토큰 예산 추적
+
+**prompts.ts 분석:**
+- getSystemPrompt(): 섹션 기반 조립
+- SYSTEM_PROMPT_DYNAMIC_BOUNDARY: 글로벌 캐시 / 동적 컨텐츠 분리 경계
+- 섹션 순서: identity → system → doingTasks → actions → usingTools → git → tone → output → environment
+- getSimpleIntroSection(): AI 정체성 + 보안 지침
+- getSimpleDoingTasksSection(): 코딩 스타일, 파일 관리, 보안 규칙
+- getActionsSection(): 위험 작업 확인 정책 (파괴적/비가역적/공유 상태)
+- getUsingYourToolsSection(): 도구별 사용 지침 (전용 도구 > Bash)
+- ant 전용 지침: 코멘트 최소화, 거짓 보고 금지, 완료 전 검증
+
+**Permission 시스템 분석:**
+- PermissionMode 5종: default, plan, autoEdit, fullAuto, bypassPermissions
+- yoloClassifier: 자동 모드 분류기, sideQuery로 별도 API 호출
+- BASE_PROMPT + EXTERNAL_PERMISSIONS_TEMPLATE: 분류기용 시스템 프롬프트
+- 분류 결과: allow/deny + 근거(reason) 반환
+- CLAUDE.md 내용(getCachedClaudeMdContent)이 분류기 컨텍스트에 포함
+
+**Hooks 시스템 분석:**
+- 이벤트 종류: PreToolUse, PostToolUse, PostToolUseFailure, SessionStart, Notification, FileChanged
+- utils/hooks.ts: spawn으로 셸 명령 실행, TaskOutput으로 결과 수집
+- hookJSONOutputSchema: 훅 출력 파싱 (동기/비동기)
+- promptRequestSchema: 훅에서 사용자 프롬프트 요청 가능
+- hooksConfigSnapshot: 설정 변조 방지를 위한 스냅샷 시스템
+- 플러그인 훅: loadPluginHooks()로 로딩, 핫 리로드 지원
+
+**autoCompact 분석:**
+- AUTOCOMPACT_BUFFER_TOKENS = 13,000
+- WARNING_THRESHOLD_BUFFER_TOKENS = 20,000
+- MAX_CONSECUTIVE_AUTOCOMPACT_FAILURES = 3 (연속 실패 시 중단)
+- getEffectiveContextWindowSize(): contextWindow - MAX_OUTPUT_TOKENS_FOR_SUMMARY(20,000)
+- CLAUDE_CODE_AUTO_COMPACT_WINDOW: 환경변수로 컨텍스트 윈도우 오버라이드 가능
+
+### Iteration 2 - 병렬 문서 생성 (COMPLETED)
+- 4개 에이전트 병렬 실행 → 전체 완료
+  - Agent #1: CLAUDE_CODE_ADVANCED_GUIDE.md (US-002) → 1,917줄, 검증 통과
+  - Agent #2: CLAUDE_CODE_PROMPT_ENGINEERING.md (US-003) → 931줄, 검증 통과
+  - Agent #3: CLAUDE_CODE_FOR_DEVELOPERS.md (US-004) → 1,251줄, 검증 통과
+  - Agent #4: CLAUDE_CODE_FOR_IDEA_MAKERS.md (US-005) → 1,034줄, 검증 통과
+
+### 최종 결과
+- 총 5개 문서, 5,858줄 생성
+- 모든 PRD 스토리 passes: true
+- 모든 acceptance criteria 검증 완료
+
+### Learnings
+- Bun 런타임 + feature() 매크로 기반 dead code elimination이 핵심 설계
+- 시스템 프롬프트는 systemPromptSection()으로 캐싱, DANGEROUS_uncachedSystemPromptSection()만 매턴 재계산
+- auto compact 임계치: contextWindow - 20,000(output 예약) - 13,000(버퍼) = 실효 임계치
+- yoloClassifier는 별도 sideQuery API 호출로 도구 사용 허가를 자동 판별
+- Hooks 6종: PreToolUse, PostToolUse, PostToolUseFailure, SessionStart, Notification, FileChanged

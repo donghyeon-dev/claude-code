@@ -1,0 +1,79 @@
+{
+  "project": "Claude Code 소스코드 기반 심층 문서화",
+  "stories": [
+    {
+      "id": "US-001",
+      "title": "소스코드 심층 인사이트 추출",
+      "description": "기존 아키텍처 분석을 넘어 query.ts, prompts.ts, permissions 시스템, hooks 시스템의 내부 동작을 심층 분석하여 실무 활용 인사이트를 추출한다",
+      "priority": 1,
+      "passes": true,
+      "acceptanceCriteria": [
+        "query.ts의 쿼리 루프 메커니즘(자동 압축, 토큰 관리, 재시도) 분석 완료",
+        "prompts.ts의 시스템 프롬프트 섹션 구조와 캐싱 메커니즘 분석 완료",
+        "Permission 시스템의 패턴 매칭 규칙과 분류기(classifier) 동작 분석 완료",
+        "Hooks 시스템의 이벤트 종류와 실행 흐름 분석 완료",
+        "분석 결과가 후속 문서 작성의 근거 자료로 사용 가능한 수준"
+      ]
+    },
+    {
+      "id": "US-002",
+      "title": "Claude Code 고급 활용 가이드 (풀스택 개발자용)",
+      "description": "소스코드 분석에서 도출된 인사이트를 바탕으로 풀스택 개발자가 Claude Code를 최대한 활용할 수 있는 심층 가이드를 작성한다",
+      "priority": 2,
+      "passes": true,
+      "acceptanceCriteria": [
+        "CLAUDE_CODE_ADVANCED_GUIDE.md 파일이 생성됨",
+        "CLAUDE.md 계층 설정의 구체적 예시가 프론트엔드/백엔드/풀스택별로 포함됨",
+        "settings.json 권한 규칙의 실전 패턴이 5가지 이상 포함됨",
+        "Hooks 시스템 활용 레시피가 3가지 이상 포함됨",
+        "컨텍스트 관리 전략(compact, token budget)이 구체적으로 설명됨",
+        "Agent Tool/서브에이전트 활용 패턴이 실전 예시와 함께 포함됨"
+      ]
+    },
+    {
+      "id": "US-003",
+      "title": "프롬프트 엔지니어링 & 하네싱 가이드",
+      "description": "Claude Code의 시스템 프롬프트 구조를 분석하여 Claude가 더 잘 이해하는 프롬프트 작성법과 하네싱 전략을 문서화한다",
+      "priority": 3,
+      "passes": true,
+      "acceptanceCriteria": [
+        "CLAUDE_CODE_PROMPT_ENGINEERING.md 파일이 생성됨",
+        "시스템 프롬프트의 실제 구조와 섹션별 역할이 설명됨",
+        "CLAUDE.md 작성 모범 사례가 Do/Don't 형식으로 포함됨",
+        "커스텀 스킬 작성법이 frontmatter 옵션과 함께 구체적으로 설명됨",
+        "에이전트 정의(.claude/agents/) 작성 가이드가 포함됨",
+        "OMC 플러그인 하네스 강화를 위한 설정 가이드가 포함됨"
+      ]
+    },
+    {
+      "id": "US-004",
+      "title": "다양한 개발자 페르소나별 활용 가이드",
+      "description": "프론트엔드, 백엔드, DevOps, 주니어 등 각 페르소나별 Claude Code 활용 전략을 문서화한다",
+      "priority": 4,
+      "passes": true,
+      "acceptanceCriteria": [
+        "CLAUDE_CODE_FOR_DEVELOPERS.md 파일이 생성됨",
+        "프론트엔드 개발자용 섹션: React/Next.js 워크플로우, 컴포넌트 생성, CSS 디버깅 등",
+        "백엔드 개발자용 섹션: API 설계, DB 마이그레이션, 테스트 자동화 등",
+        "DevOps/인프라용 섹션: CI/CD, Docker, IaC 관련 활용법",
+        "주니어 개발자용 섹션: 학습 도구로서의 활용, 코드 리뷰 요청, 디버깅 도움",
+        "각 페르소나별 CLAUDE.md 템플릿이 포함됨"
+      ]
+    },
+    {
+      "id": "US-005",
+      "title": "아이디어 메이커/사업가를 위한 활용 가이드",
+      "description": "비개발자 또는 초기 단계 사업가가 Claude Code를 활용하여 MVP를 만들고 프로토타이핑하는 전략을 문서화한다",
+      "priority": 5,
+      "passes": true,
+      "acceptanceCriteria": [
+        "CLAUDE_CODE_FOR_IDEA_MAKERS.md 파일이 생성됨",
+        "아이디어 → MVP 파이프라인이 단계별로 설명됨",
+        "autopilot 모드를 활용한 프로토타이핑 전략이 포함됨",
+        "비개발자가 이해할 수 있는 수준의 용어와 설명",
+        "실전 시나리오 3가지 이상 (SaaS, 랜딩페이지, API 서비스 등)",
+        "비용 관리와 효율적 사용을 위한 팁이 포함됨"
+      ]
+    }
+  ]
+}
